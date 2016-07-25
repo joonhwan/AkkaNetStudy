@@ -1,0 +1,68 @@
+2016-07-25 09:49:32.5999 INFO Akka.net demo
+2016-07-25 10:30:17.1517 ERROR Error in Processing Command.
+2016-07-25 10:30:19.3517 ERROR Error in Processing Command.
+2016-07-25 10:30:22.4791 ERROR Error in Processing Command.
+2016-07-25 10:30:22.6468 ERROR Error in Processing Command.
+2016-07-25 10:30:22.7990 ERROR Error in Processing Command.
+2016-07-25 10:30:45.4638 ERROR Error in Processing Command.
+2016-07-25 10:30:50.8301 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:31:06.8939 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:31:09.3852 ERROR Error in Processing Command.
+2016-07-25 10:32:26.5577 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:33:18.5824 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:33:53.7895 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:34:24.5742 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:35:07.0865 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:35:08.3851 TRACE Player p1[health=100] is being created.
+2016-07-25 10:36:20.6939 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:36:20.7134 TRACE Player p1[health=100] is being created.
+2016-07-25 10:36:28.7030 INFO Player[p1] got damage. Health=100
+2016-07-25 10:36:37.9332 INFO Player[p1] got damage. Health=80
+2016-07-25 10:36:49.1949 INFO Player[p1] got damage. Health=60
+2016-07-25 10:36:50.4046 INFO Player[p1] got damage. Health=40
+2016-07-25 10:36:51.6446 INFO Player[p1] got damage. Health=20
+2016-07-25 10:36:57.3728 INFO Player[p1] got damage. Health=0
+2016-07-25 10:37:30.1662 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:37:30.1837 TRACE Player p1[health=100] is being created.
+2016-07-25 10:37:32.6399 ERROR Error in Processing Command.
+2016-07-25 10:37:33.3055 ERROR Error in Processing Command.
+2016-07-25 10:37:37.2822 INFO Player[p1] got damage(1). Health=100
+2016-07-25 10:37:39.7328 INFO Player[p1] got damage(1). Health=99
+2016-07-25 10:37:40.6928 INFO Player[p1] got damage(1). Health=98
+2016-07-25 10:37:41.8369 INFO Player[p1] got damage(2). Health=97
+2016-07-25 10:37:42.8690 INFO Player[p1] got damage(5). Health=95
+2016-07-25 10:37:45.9810 INFO Player[p1] got damage(-10). Health=90
+2016-07-25 10:37:53.9888 INFO Player[p1] got damage(-10). Health=100
+2016-07-25 10:38:08.9743 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:38:08.9919 TRACE Player p1[health=100] is being created.
+2016-07-25 10:38:13.9128 INFO Player[p1] got damage(10). Health=90
+2016-07-25 10:38:16.6289 INFO Player[p1] got damage(10). Health=80
+2016-07-25 10:38:19.5488 INFO Player[p1] got damage(-10). Health=90
+2016-07-25 10:38:20.8367 INFO Player[p1] got damage(-10). Health=100
+2016-07-25 10:53:25.7054 ERROR Error in Processing Command.
+2016-07-25 10:53:34.4736 ERROR Error in Processing Command.
+2016-07-25 10:53:34.4921 WARN Command : C(Create), H(Hit), E(Error)...
+2016-07-25 10:59:13.1069 ERROR Error in Processing Command.
+2016-07-25 10:59:13.1230 WARN Command : C(Create), H(Hit), E(Error)...
+2016-07-25 10:59:18.8792 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 10:59:18.8792 TRACE Player p1[health=100] is being created.
+2016-07-25 10:59:22.2512 INFO Player[p1] got damage(10). Health=90
+2016-07-25 10:59:26.9279 ERROR Error in Processing Command.
+2016-07-25 10:59:26.9279 WARN Command : C(Create), H(Hit), E(Error)...
+2016-07-25 10:59:30.8384 ERROR Player[p1] got simulated error.
+2016-07-25 10:59:33.2068 TRACE Player p1[health=100] is being created.
+2016-07-25 10:59:38.3979 INFO Player[p1] got damage(10). Health=90
+2016-07-25 10:59:46.9977 INFO Player[p1] got damage(20). Health=70
+2016-07-25 10:59:50.3417 ERROR Player[p1] got simulated error.
+2016-07-25 10:59:52.1726 TRACE Player p1[health=100] is being created.
+2016-07-25 10:59:58.5345 INFO Player[p1] got damage(20). Health=80
+2016-07-25 11:10:04.1699 ERROR Error in Processing Command.
+2016-07-25 11:10:04.1859 WARN Command : C(Create), H(Hit), E(Error)...
+2016-07-25 11:10:41.6524 ERROR Error in Processing Command.
+2016-07-25 11:10:41.6693 WARN Command : C(Create), H(Hit), E(Error)...
+2016-07-25 11:10:51.3992 INFO Received GameConsole.ActorModels.Messages.CreatePlayerMessage
+2016-07-25 11:10:51.3992 TRACE Player p1[health=100] is being created.
+2016-07-25 11:10:53.9026 INFO Player[p1] health = 100
+2016-07-25 11:10:56.3341 INFO Player[p1] health = 100
+2016-07-25 11:11:03.1268 INFO Player[p1] got damage(10). Health=90
+2016-07-25 11:11:05.8064 INFO Player[p1] health = 90
