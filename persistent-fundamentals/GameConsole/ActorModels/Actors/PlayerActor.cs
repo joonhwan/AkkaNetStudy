@@ -1,12 +1,13 @@
 using System;
 using System.Threading.Tasks;
 using Akka.Actor;
+using Akka.Persistence;
 using GameConsole.ActorModels.Messages;
 using NLog;
 
 namespace GameConsole.ActorModels.Actors
 {
-    public class PlayerActor : ReceiveActor
+    public class PlayerActor : ReceivePersistentActor
     {
         private static ILogger _logger = LogManager.GetLogger("Player");
         
@@ -19,16 +20,32 @@ namespace GameConsole.ActorModels.Actors
             
             _name = playerName;
             _health = defaultStartingHealth;
+            
+            Command<HitMessage>(message =>
+            {
+                Persist(message, savedMessage =>
+                {
+                    _logger.Info($"Player[{_name}] persisted HitMessage(damange={savedMessage.Damage})");
+                    HitPlayer(message.Damage);
+                });
+            });
+            Command<DisplayStatusMessage>(message => DisplayStatus());
+            Command<CauseErrorMessage>(message => CauseError());
 
-            Receive<HitMessage>(message => HitPlayer(message.Damage));
-            Receive<DisplayStatusMessage>(message => DisplayStatus());
-            Receive<CauseErrorMessage>(message => CauseError());
+            Recover<HitMessage>(message =>
+            {
+                _logger.Info($"Player[{_name}] replayed HitMessage(damange={message.Damage})");
+                HitPlayer(message.Damage);
+            });
         }
 
+        public override string PersistenceId => $"player-{_name}";
+        
         private void HitPlayer(int damage)
         {
+            _logger.Info($"Player[{_name}] got damage({damage})");
             _health -= damage;
-            _logger.Info($"Player[{_name}] got damage({damage}). Health={_health}");
+            
         }
 
         private void DisplayStatus()
@@ -41,5 +58,6 @@ namespace GameConsole.ActorModels.Actors
             _logger.Error($"Player[{_name}] got simulated error.");
             throw new ApplicationException($"Simulated Exception for Player[{_name}]");
         }
+
     }
 }

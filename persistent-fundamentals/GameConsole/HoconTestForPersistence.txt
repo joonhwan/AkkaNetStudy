@@ -1,0 +1,66 @@
+﻿persistence {
+    journal {
+      plugin = "akka.persistence.journal.sql-server"                
+      sql-server {
+        class = "Akka.Persistence.SqlServer.Journal.SqlServerJournal, Akka.Persistence.SqlServer"
+        plugin-dispatcher = "akka.actor.default-dispatcher"
+
+        # connection string used for database access
+        # connection-string = "Data Source=.\\SQLEXPRESS;Initial Catalog=PSAkka;Integrated Security=True"
+        connection-string = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:/prj/oss/mine/AkkaNet/persistent-fundamentals/GameConsole/PSAkka.mdf;Integrated Security=True"
+        # connection-string = "GameConsole.Properties.Settings.PSAkkaConnectionString"
+        # can alternativly specify: connection-string-name
+
+        # default SQL timeout
+        connection-timeout = 30s
+
+        # SQL server schema name
+        schema-name = dbo
+
+        # persistent journal table name
+        table-name = EventJournal
+
+        # initialize journal table automatically
+        auto-initialize = on
+
+        timestamp-provider = "Akka.Persistence.Sql.Common.Journal.DefaultTimestampProvider, Akka.Persistence.Sql.Common"
+        metadata-table-name = Metadata
+      }
+    }
+  }
+
+  persistence {
+    journal {
+		  plugin = "akka.persistence.journal.sqlite"
+		  sqlite {
+		
+			  # qualified type name of the SQLite persistence journal actor
+			  class = "Akka.Persistence.Sqlite.Journal.SqliteJournal, Akka.Persistence.Sqlite"
+
+			  # dispatcher used to drive journal actor
+			  plugin-dispatcher = "akka.actor.default-dispatcher"
+
+			  # connection string used for database access
+			  connection-string = "Data Source=psakka.db;Version=3;"
+			
+			  # connection string name for .config file used when no connection string has been provided
+			  connection-string-name = ""
+
+			  # default SQLite commands timeout
+			  connection-timeout = 30s
+
+			  # SQLite table corresponding with persistent journal
+			  table-name = event_journal
+			
+			  # metadata table
+			  metadata-table-name = journal_metadata
+
+			  # should corresponding journal table be initialized automatically
+			  auto-initialize = on
+
+			  # timestamp provider used for generation of journal entries timestamps
+			  timestamp-provider = "Akka.Persistence.Sql.Common.Journal.DefaultTimestampProvider, Akka.Persistence.Sql.Common"
+
+		  }
+    }
+  }

@@ -63,6 +63,7 @@ namespace GameConsole
 
         private static string[] ReadLine()
         {
+            Console.ResetColor();
             var input = Console.ReadLine();
             return input?.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
         }
