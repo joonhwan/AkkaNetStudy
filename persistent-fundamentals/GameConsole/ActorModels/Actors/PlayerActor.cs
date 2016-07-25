@@ -2,7 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Akka.Actor;
 using Akka.Persistence;
-using GameConsole.ActorModels.Messages;
+using GameConsole.ActorModels.Commands;
+using GameConsole.ActorModels.Events;
 using NLog;
 
 namespace GameConsole.ActorModels.Actors
@@ -20,22 +21,23 @@ namespace GameConsole.ActorModels.Actors
             
             _name = playerName;
             _health = defaultStartingHealth;
-            
-            Command<HitMessage>(message =>
+
+            Command<HitPlayer>(message =>
             {
-                Persist(message, savedMessage =>
+                var playerHit = new PlayerHit(message.Damage);
+                Persist(playerHit, @event =>
                 {
-                    _logger.Info($"Player[{_name}] persisted HitMessage(damange={savedMessage.Damage})");
+                    _logger.Info($"Player[{_name}] persisted HitMessage(damange={@event.DamageTaken})");
                     HitPlayer(message.Damage);
                 });
             });
-            Command<DisplayStatusMessage>(message => DisplayStatus());
-            Command<CauseErrorMessage>(message => CauseError());
+            Command<DisplayStatus>(message => DisplayStatus());
+            Command<SimulateError>(message => CauseError());
 
-            Recover<HitMessage>(message =>
+            Recover<PlayerHit>(@event =>
             {
-                _logger.Info($"Player[{_name}] replayed HitMessage(damange={message.Damage})");
-                HitPlayer(message.Damage);
+                _logger.Info($"Player[{_name}] replayed HitMessage(damange={@event.DamageTaken})");
+                HitPlayer(@event.DamageTaken);
             });
         }
 

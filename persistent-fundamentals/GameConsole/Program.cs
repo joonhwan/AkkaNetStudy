@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Akka.Actor;
 using GameConsole.ActorModels.Actors;
-using GameConsole.ActorModels.Messages;
+using GameConsole.ActorModels.Commands;
 using NLog;
 using NLog.Config;
 
@@ -30,20 +30,20 @@ namespace GameConsole
                     switch (action?[0].ToUpper())
                     {
                     case "C":
-                        coordinator.Tell(new CreatePlayerMessage(action[1], 100));
+                        coordinator.Tell(new CreatePlayer(action[1], 100));
                         break;
                     case "H":
                         path = $"/user/PlayerCoordinator/{action[1]}";
                         system.ActorSelection(path)
-                              .Tell(new HitMessage(int.Parse(action[2])));
+                              .Tell(new HitPlayer(int.Parse(action[2])));
                         break;
                     case "E":
                         path = $"/user/PlayerCoordinator/{action[1]}";
-                        system.ActorSelection(path).Tell(new CauseErrorMessage());
+                        system.ActorSelection(path).Tell(new SimulateError());
                         break;
                     case "D":
                         path = $"/user/PlayerCoordinator/{action[1]}";
-                        system.ActorSelection(path).Tell(new DisplayStatusMessage());
+                        system.ActorSelection(path).Tell(new DisplayStatus());
                         break;
                     default:
                         _logger.Warn("Command : C(Create), H(Hit), E(Error)...");
