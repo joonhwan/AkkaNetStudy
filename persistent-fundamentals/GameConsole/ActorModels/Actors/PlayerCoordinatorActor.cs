@@ -4,25 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Akka.Actor;
+using Akka.Persistence;
 using GameConsole.ActorModels.Messages;
 using NLog;
 
 namespace GameConsole.ActorModels.Actors
 {
-    public class PlayerCoordinatorActor : ReceiveActor
+    public class PlayerCoordinatorActor : ReceivePersistentActor
     {
         private static ILogger _logger = LogManager.GetLogger("PlayerCoordinator");
 
         public PlayerCoordinatorActor()
         {
-            Receive<CreatePlayerMessage>(message =>
+            Command<CreatePlayerMessage>(_ => Persist(_, message =>
             {
                 _logger.Info($"Received {message}");
-                Context.ActorOf(
-                    Props.Create(() => new PlayerActor(message.PlayerName, message.DefaultStartingHealth)),
-                    message.PlayerName
-                    );
+                CreatePlayer(message.PlayerName, message.DefaultStartingHealth);
+            }));
+            Recover<CreatePlayerMessage>(message =>
+            {
+                CreatePlayer(message.PlayerName, message.DefaultStartingHealth);
             });
         }
+
+        private static void CreatePlayer(string playerName, int defaultStartingHealth)
+        {
+            Context.ActorOf(
+                Props.Create(() => new PlayerActor(playerName, defaultStartingHealth)),
+                playerName
+                );
+        }
+
+        public override string PersistenceId => "player-coordintaor";
+
+        protected override void OnPersistFailure(Exception cause, object @event, long sequenceNr)
+        {
+            base.OnPersistFailure(cause, @event, sequenceNr);
+        }
+
+        protected override void OnReplaySuccess()
+        {
+            base.OnReplaySuccess();
+        }
+        
     }
 }
