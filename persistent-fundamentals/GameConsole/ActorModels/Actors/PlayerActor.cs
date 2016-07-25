@@ -10,25 +10,36 @@ namespace GameConsole.ActorModels.Actors
 {
     public class PlayerActor : ReceivePersistentActor
     {
-        private static ILogger _logger = LogManager.GetLogger("Player");
-        
-        private string _name;
-        private int _health;
+        private static readonly ILogger _logger = LogManager.GetLogger("Player");
+
+        private PlayerActorState _state;
+        private int _eventCount;
 
         public PlayerActor(string playerName, int defaultStartingHealth)
         {
             _logger.Trace($"Player {playerName}[health={defaultStartingHealth}] is being created.");
-            
-            _name = playerName;
-            _health = defaultStartingHealth;
+
+            _state = new PlayerActorState()
+                     {
+                         PlayerName = playerName,
+                         Health = defaultStartingHealth
+                     };
+            _eventCount = 0;
 
             Command<HitPlayer>(message =>
             {
                 var playerHit = new PlayerHit(message.Damage);
                 Persist(playerHit, @event =>
                 {
-                    _logger.Info($"Player[{_name}] persisted HitMessage(damange={@event.DamageTaken})");
+                    _logger.Info($"Player[{_state}] persisted HitMessage(damange={@event.DamageTaken})");
                     HitPlayer(message.Damage);
+
+                    if ((++_eventCount) == 5)
+                    {
+                        _logger.Trace($"Player[{_state}] saving snap...");
+                        SaveSnapshot(_state);
+                        _eventCount = 0;
+                    }
                 });
             });
             Command<DisplayStatus>(message => DisplayStatus());
@@ -36,29 +47,35 @@ namespace GameConsole.ActorModels.Actors
 
             Recover<PlayerHit>(@event =>
             {
-                _logger.Info($"Player[{_name}] replayed HitMessage(damange={@event.DamageTaken})");
+                _logger.Info($"Player[{_state}] replayed HitMessage(damange={@event.DamageTaken})");
                 HitPlayer(@event.DamageTaken);
+            });
+            Recover<SnapshotOffer>(offer =>
+            {
+                _logger.Trace($"Player[{_state}] recovering snapshot..");
+
+                _state = (PlayerActorState)offer.Snapshot;
             });
         }
 
-        public override string PersistenceId => $"player-{_name}";
-        
+        public override string PersistenceId => $"player-{_state.PlayerName}";
+
         private void HitPlayer(int damage)
         {
-            _logger.Info($"Player[{_name}] got damage({damage})");
-            _health -= damage;
-            
+            _logger.Info($"Player[{_state}] got damage({damage})");
+            _state.Health -= damage;
+
         }
 
         private void DisplayStatus()
         {
-            _logger.Info($"Player[{_name}] health = {_health}");
+            _logger.Info($"Player State : {_state}");
         }
 
         private void CauseError()
         {
-            _logger.Error($"Player[{_name}] got simulated error.");
-            throw new ApplicationException($"Simulated Exception for Player[{_name}]");
+            _logger.Error($"Player[{_state}] got simulated error.");
+            throw new ApplicationException($"Simulated Exception for Player[{_state}]");
         }
 
     }

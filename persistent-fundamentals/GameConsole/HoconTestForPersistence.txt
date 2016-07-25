@@ -1,33 +1,46 @@
-﻿persistence {
-    journal {
-      plugin = "akka.persistence.journal.sql-server"                
-      sql-server {
-        class = "Akka.Persistence.SqlServer.Journal.SqlServerJournal, Akka.Persistence.SqlServer"
-        plugin-dispatcher = "akka.actor.default-dispatcher"
+﻿	persistence {
+		journal {
+		  plugin = "akka.persistence.journal.sql-server"                
+		  sql-server {
+			class = "Akka.Persistence.SqlServer.Journal.SqlServerJournal, Akka.Persistence.SqlServer"
+			plugin-dispatcher = "akka.actor.default-dispatcher"
 
-        # connection string used for database access
-        # connection-string = "Data Source=.\\SQLEXPRESS;Initial Catalog=PSAkka;Integrated Security=True"
-        connection-string = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:/prj/oss/mine/AkkaNet/persistent-fundamentals/GameConsole/PSAkka.mdf;Integrated Security=True"
-        # connection-string = "GameConsole.Properties.Settings.PSAkkaConnectionString"
-        # can alternativly specify: connection-string-name
+			# connection string used for database access
+			# connection-string = "Data Source=.\\SQLEXPRESS;Initial Catalog=PSAkka;Integrated Security=True"
+			connection-string = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:/prj/oss/mine/AkkaNet/persistent-fundamentals/GameConsole/PSAkka.mdf;Integrated Security=True"
+			# connection-string = "GameConsole.Properties.Settings.PSAkkaConnectionString"
+			# can alternativly specify: connection-string-name
 
-        # default SQL timeout
-        connection-timeout = 30s
+			# default SQL timeout
+			connection-timeout = 30s
 
-        # SQL server schema name
-        schema-name = dbo
+			# SQL server schema name
+			schema-name = dbo
 
-        # persistent journal table name
-        table-name = EventJournal
+			# persistent journal table name
+			table-name = EventJournal
 
-        # initialize journal table automatically
-        auto-initialize = on
+			# initialize journal table automatically
+			auto-initialize = on
 
-        timestamp-provider = "Akka.Persistence.Sql.Common.Journal.DefaultTimestampProvider, Akka.Persistence.Sql.Common"
-        metadata-table-name = Metadata
-      }
-    }
-  }
+			timestamp-provider = "Akka.Persistence.Sql.Common.Journal.DefaultTimestampProvider, Akka.Persistence.Sql.Common"
+			metadata-table-name = Metadata
+		  }
+		}
+	  }
+  
+    snapshot-store {
+      plugin = "akka.persistence.snapshot-store.sql-server"
+        sql-server {
+          class = "Akka.Persistence.SqlServer.Snapshot.SqlServerSnapshotStore, Akka.Persistence.SqlServer"
+          plugin-dispatcher = "akka.actor.default-dispatcher"
+          table-name = SnapshotStore
+          schema-name = dbo
+          auto-initialize = on
+          connection-string = "Data Source=.\\SQLEXPRESS;Initial Catalog=PSAkka;Integrated Security=True"
+        }
+    } 
+                 
 
   persistence {
     journal {

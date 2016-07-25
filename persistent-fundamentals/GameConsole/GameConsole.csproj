@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorModels\Actors\PlayerActor.cs" />
+    <Compile Include="ActorModels\Actors\PlayerActorState.cs" />
     <Compile Include="ActorModels\Events\PlayerCreated.cs" />
     <Compile Include="ActorModels\Events\PlayerHit.cs" />
     <Compile Include="ActorModels\Commands\SimulateError.cs" />
